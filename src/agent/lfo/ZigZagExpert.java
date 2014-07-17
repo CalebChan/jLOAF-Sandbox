@@ -2,12 +2,8 @@
 package agent.lfo;
 
 import sandbox.Creature;
-import sandbox.Direction;
 import sandbox.MovementAction;
-import sandbox.Obstacle;
 import sandbox.sensor.Sensor;
-import sandbox.sensor.DirtBasedSensor;
-import sandbox.sensor.Sense;
 
 public class ZigZagExpert extends DirtBasedAgent{
     
@@ -31,8 +27,6 @@ public class ZigZagExpert extends DirtBasedAgent{
             First = false;
             return MovementAction.MOVE_RIGHT;
         }
-        int dist = (int) s.getSense(c.getDir() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue();
-        int value = (int) s.getSense(c.getDir() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).getValue();
         if (Right){
             if (Down){
                 if (End) {

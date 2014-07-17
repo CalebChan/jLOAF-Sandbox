@@ -5,7 +5,6 @@ import java.util.Random;
 import sandbox.Creature;
 import sandbox.Direction;
 import sandbox.MovementAction;
-import sandbox.Obstacle;
 
 public class SmartRandomExpert extends SmartExpert{
 
@@ -13,15 +12,7 @@ public class SmartRandomExpert extends SmartExpert{
 	
 	public SmartRandomExpert(int size, Creature c) {
 		super(size, c);
-		r = new Random(0);
-		
-		int world[][] = box.getWorld();
-		world[4][2] = Obstacle.DIRT.ordinal();
-		world[7][1] = Obstacle.DIRT.ordinal();
-		
-		box.setWorld(world);
-		box.init();
-		
+		r = new Random(0);		
 	}
 
 	@Override

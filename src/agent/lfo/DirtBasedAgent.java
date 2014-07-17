@@ -3,18 +3,30 @@ package agent.lfo;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 
 import sandbox.Creature;
 import sandbox.Direction;
 import sandbox.MovementAction;
+import sandbox.Obstacle;
 import sandbox.creature.DirtBasedCreature;
 import agent.AbstractSandboxAgent;
 import agent.AgentState;
 
 public abstract class DirtBasedAgent extends AbstractSandboxAgent {
 
+	private static final int DEFAULT_RANDOM_SEED = 0;
+	
 	public DirtBasedAgent(int size, Creature c) {
 		super(size, c);
+		Random r = new Random(DEFAULT_RANDOM_SEED);
+		
+		int world[][] = box.getWorld();
+		world[r.nextInt(size - 2) + 1][r.nextInt(size - 2) + 1] = Obstacle.DIRT.ordinal();
+		world[r.nextInt(size - 2) + 1][r.nextInt(size - 2) + 1] = Obstacle.DIRT.ordinal();
+		
+		box.setWorld(world);
+		box.init();
 	}
 
 	@Override

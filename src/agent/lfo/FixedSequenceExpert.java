@@ -1,14 +1,11 @@
 package agent.lfo;
 
 import sandbox.Creature;
-import sandbox.Direction;
 import sandbox.MovementAction;
-import sandbox.Obstacle;
 
 public class FixedSequenceExpert extends DirtBasedAgent{
     
     private int num;
-    private MovementAction actions;
     
     public FixedSequenceExpert (int size, Creature c) {
         super(size, c);
