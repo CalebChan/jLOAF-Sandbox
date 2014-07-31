@@ -12,7 +12,7 @@ public class SmartRandomExpert extends SmartExpert{
 	
 	public SmartRandomExpert(int size, Creature c) {
 		super(size, c);
-		r = new Random(0);		
+		r = new Random();		
 	}
 
 	@Override
