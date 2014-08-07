@@ -1,6 +1,13 @@
 package agent.lfo;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Random;
+
 import sandbox.Creature;
+import sandbox.Direction;
 import sandbox.MovementAction;
 import sandbox.Obstacle;
 
@@ -11,8 +18,14 @@ public class SmartExplorerExpert extends SmartExpert {
 	
 	private int world[][];
 	
+	private ArrayList<Point> openSpaces;
+	
+	private Random r;
+	
 	public SmartExplorerExpert(int size, Creature c) {
 		super(size, c);
+		this.r = new Random();
+		this.openSpaces = new ArrayList<Point>();
 		
 		initX = c.getX();
 		initY = c.getY();
@@ -26,14 +39,91 @@ public class SmartExplorerExpert extends SmartExpert {
 				}else{
 					world[i][j] = 0;
 				}
+				
+				if (w[i][j] != Obstacle.WALL.ordinal()){
+					this.openSpaces.add(new Point(i, j));
+				}
 			}
 		}
+		
+		this.openSpaces.remove(new Point(initX, initY));
+	}
+	
+	private MovementAction selectDirection(Point newDir, Point oldDir, Direction d){
+		
+		if (newDir.getY() < oldDir.getY()){
+			switch (d){
+			case NORTH:
+				return MovementAction.FORWARD;
+			case SOUTH:
+				return MovementAction.BACKWARD;
+			case EAST:
+				return MovementAction.TURN_LEFT;
+			case WEST:
+				return MovementAction.TURN_RIGHT;
+			}
+		}else if (newDir.getY() > oldDir.getY()){
+			switch (d){
+			case NORTH:
+				return MovementAction.BACKWARD;
+			case SOUTH:
+				return MovementAction.FORWARD;
+			case EAST:
+				return MovementAction.TURN_RIGHT;
+			case WEST:
+				return MovementAction.TURN_LEFT;
+			}
+		}else if (newDir.getX() > oldDir.getX()){
+			switch (d){
+			case NORTH:
+				return MovementAction.TURN_RIGHT;
+			case SOUTH:
+				return MovementAction.TURN_LEFT;
+			case EAST:
+				return MovementAction.FORWARD;
+			case WEST:
+				return MovementAction.BACKWARD;
+			}
+		}else if (newDir.getX() < oldDir.getX()){
+			switch (d){
+			case NORTH:
+				return MovementAction.TURN_LEFT;
+			case SOUTH:
+				return MovementAction.TURN_RIGHT;
+			case EAST:
+				return MovementAction.BACKWARD;
+			case WEST:
+				return MovementAction.FORWARD;
+			}
+		}
+		
+		return MovementAction.STAND;
 	}
 
 	@Override
 	public MovementAction testAction(Creature c) {
-		// TODO Auto-generated method stub
-		return null;
+		this.openSpaces.remove(new Point(c.getX(), c.getY()));
+		final Creature cc = c;
+		Collections.sort(this.openSpaces, new Comparator<Point>(){
+			
+			@Override
+			public int compare(Point o1, Point o2) {
+				double d1 = o1.distance(cc.getX(), cc.getY()) * 10;
+				double d2 = o2.distance(cc.getX(), cc.getY()) * 10;
+				return (int) (d1 - d2);
+			}
+			
+		});
+		MovementAction action = this.nextSmartDirection(c);
+		if (action != null){
+			return action;
+		}
+		if (r.nextDouble() >= 0.75){
+			int value = r.nextInt(Direction.values().length);
+			return calculateMovement(c.getDir(), Direction.values()[value]);
+		}else{
+			return selectDirection(this.openSpaces.get(0), new Point(c.getX(), c.getY()), c.getDir());
+		}
 	}
 
 }
