@@ -3,15 +3,16 @@ package sandbox;
 public enum MovementAction {
 	REMOVE_OBSTACLE,
 	
-	FORWARD,
-	BACKWARD,
-	TURN_LEFT,
-	TURN_RIGHT,
 	STAND,
+	FORWARD,
+	MOVE_RIGHT,
+	MOVE_LEFT,
+	BACKWARD,
+	
 	REVERSE,
 	
+	TURN_RIGHT,
+	TURN_LEFT,
 	
 	
-	MOVE_LEFT,
-	MOVE_RIGHT,
 }
