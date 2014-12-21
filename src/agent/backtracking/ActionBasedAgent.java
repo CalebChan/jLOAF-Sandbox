@@ -21,11 +21,11 @@ public class ActionBasedAgent extends StateBasedAgent{
 		double snr = (double)c.getSensor().getSense(StateBasedAgentSenseConfig.SONAR).getValue();
 		
 		if (tch){
-			action = MovementAction.BACKWARD;
+			action = MovementAction.MOVE_DOWN;
 		}else if (!tch && snr < 2){
 			action = MovementAction.REVERSE; // TODO: Add Reverse
 		}else if (!tch && snr >= 3){
-			action = MovementAction.FORWARD;
+			action = MovementAction.MOVE_UP;
 		}else if (!tch && snr >= 2 && snr < 3 && isTurnRightState){
 			action = MovementAction.TURN_RIGHT;
 			isTurnRightState = !isTurnRightState;

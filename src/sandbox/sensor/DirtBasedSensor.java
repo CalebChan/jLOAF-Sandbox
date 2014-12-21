@@ -63,7 +63,7 @@ public class DirtBasedSensor extends Sensor{
 				}
 				break;
 			}
-			ActionHistory h = sandbox.getLastActionHistory(c);
+			ActionHistory h = c.getLastActionHistory();
 			this.senses.get(d.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).setValue(obstacle); 
 			if (h != null && !h.isAbleToTake() && c.getDir().equals(d)){
 				this.senses.get(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).setValue(-1);

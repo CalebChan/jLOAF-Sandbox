@@ -1,6 +1,9 @@
 package sandbox;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import sandbox.sensor.Sensor;
 
 public abstract class Creature implements Serializable{
@@ -14,6 +17,8 @@ public abstract class Creature implements Serializable{
 	
 	protected Sensor sensor;
 	
+	protected List<ActionHistory> actionHistory;
+	
 	public Creature(Creature c){
 		this(c.x, c.y, c.dir);
 	}
@@ -22,9 +27,19 @@ public abstract class Creature implements Serializable{
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
+		
+		this.actionHistory = new ArrayList<ActionHistory>();
 	}
 	
 	public abstract Sensor getSensor();
+	
+	public void addAction(ActionHistory action){
+		this.actionHistory.add(action);
+	}
+	
+	public ActionHistory getLastActionHistory(){
+		return this.actionHistory.get(this.actionHistory.size() - 1);
+	}
 
 	public int getX() {
 		return x;

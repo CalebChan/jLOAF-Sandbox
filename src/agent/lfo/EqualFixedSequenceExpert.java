@@ -3,6 +3,7 @@ package agent.lfo;
 import sandbox.Creature;
 import sandbox.MovementAction;
 
+@Deprecated
 public class EqualFixedSequenceExpert extends DirtBasedAgent{
     
     private int num;
@@ -18,31 +19,31 @@ public class EqualFixedSequenceExpert extends DirtBasedAgent{
         if (num==1)
             return MovementAction.MOVE_LEFT;
         if (num==2)
-            return MovementAction.BACKWARD;
+            return MovementAction.MOVE_DOWN;
         if (num==3)
             return MovementAction.MOVE_LEFT;
         if (num==4)
             return MovementAction.STAND;
         if (num==5)
-            return MovementAction.FORWARD;
+            return MovementAction.MOVE_UP;
         if (num==6)
             return MovementAction.MOVE_RIGHT;
         if (num==7)
-            return MovementAction.BACKWARD;
+            return MovementAction.MOVE_DOWN;
         if (num==8)
             return MovementAction.STAND;
         if (num==9)
-            return MovementAction.FORWARD;
+            return MovementAction.MOVE_UP;
         if (num==10)
             return MovementAction.MOVE_RIGHT;
         if (num==11)
             return MovementAction.STAND;
         if (num==12)
-            return MovementAction.BACKWARD;
+            return MovementAction.MOVE_DOWN;
         if (num==13)
             return MovementAction.MOVE_LEFT;
         if (num==14)
-            return MovementAction.FORWARD;
+            return MovementAction.MOVE_UP;
         num = 0;
         return MovementAction.MOVE_RIGHT;
         

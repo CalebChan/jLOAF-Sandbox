@@ -1,9 +1,6 @@
 package sandbox;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 
 public class Sandbox {
 
@@ -11,21 +8,27 @@ public class Sandbox {
 	
 	private int world[][];
 	
-	private Map<Creature, ActionHistory> lastActionHistory;
-	
 	public Sandbox(int size){
-		world = new int[size][size];
+		this.world = new int[size][size];
 		this.creatureList = new ArrayList<Creature>();
 		
-		for (int i = 0; i < size; i++){
-			world[0][i] = Obstacle.WALL.getId();
-			world[i][0] = Obstacle.WALL.getId();
-			world[size - 1][i] = Obstacle.WALL.getId();
-			world[i][size - 1] = Obstacle.WALL.getId();
-		}
-		this.lastActionHistory = new HashMap<Creature, ActionHistory>();
+		initWorld();
 	}
 	
+	protected void initWorld(){
+		for (int i = 0; i < this.world.length; i++){
+			this.world[0][i] = Obstacle.WALL.getId();
+			this.world[i][0] = Obstacle.WALL.getId();
+			this.world[this.world.length - 1][i] = Obstacle.WALL.getId();
+			this.world[i][this.world.length - 1] = Obstacle.WALL.getId();
+		}
+	}
+	
+	/**
+	 * Adds the creature to the sandbox and returns the id of the creature.
+	 * @param creature The creature to be added
+	 * @return Returns the id of the creature
+	 */
 	public int addCreature(Creature creature){
 		this.creatureList.add(creature);
 		return this.creatureList.size() - 1;
@@ -49,18 +52,14 @@ public class Sandbox {
 		return this.creatureList;
 	}
 	
-	public ActionHistory getLastActionHistory(Creature c){
-		return this.lastActionHistory.get(c);
-	}
-	
 	public void takeAction(int index, MovementAction action){
 		boolean bump = false;
 		switch(action){
-		case FORWARD:
-			bump = moveForward(index);
+		case MOVE_UP:
+			bump = move(index, Direction.NORTH);
 			break;
-		case BACKWARD:
-			bump = moveBackward(index);
+		case MOVE_DOWN:
+			bump = move(index, Direction.SOUTH);
 			break;
 		case TURN_LEFT:
 			turnLeft(index);
@@ -68,28 +67,25 @@ public class Sandbox {
 		case TURN_RIGHT:
 			turnRight(index);
 			break;
-		case REVERSE:
-			reverse(index);
-			break;
 		case MOVE_LEFT:
-			turnLeft(index);
-			bump = moveForward(index);
+			bump = move(index, Direction.WEST);
 			break;
 		case MOVE_RIGHT:
-			turnRight(index);
-			bump = moveForward(index);
+			bump = move(index, Direction.EAST);
 			break;
 		case REMOVE_OBSTACLE:
-			//removeObstacle(index);
 			action = MovementAction.STAND;
 			break;
 		case STAND:
 			break;
+		default:
+			action = MovementAction.STAND;
+			bump = false;
 		}
 		removeObstacle(index);
 		
 		Creature c = this.creatureList.get(index);
-		this.lastActionHistory.put(c, new ActionHistory(action, !bump));
+		c.addAction(new ActionHistory(action, !bump));
 		c.getSensor().updateSenses(this);
 	}
 	
@@ -99,32 +95,13 @@ public class Sandbox {
 		int y = c.getY();
 		
 		clearSpace(x, y);
-		//clearSpace(Math.max(x - 1, 0), y);
-		//clearSpace(Math.min(x + 1, world.length - 1), y);
-		//clearSpace(x, Math.max(y - 1, 0));
-		//clearSpace(x, Math.min(y + 1, world[0].length - 1));
 	}
 	
 	private void clearSpace(int x, int y){
-		Obstacle o = Obstacle.idToEnum(world[x][y]);
+		Obstacle o = Obstacle.idToEnum(this.world[x][y]);
 		if(!o.isClippable()){
-			world[x][y] = Obstacle.NOTHING.getId();
+			this.world[x][y] = Obstacle.NOTHING.getId();
 		}
-	}
-	
-	private void reverse(int index){
-		Creature c = this.creatureList.get(index);
-		c.setDir(Direction.getNextDirection(MovementAction.REVERSE, c.getDir()));
-	}
-	
-	private boolean moveForward(int index){
-		Creature c = this.creatureList.get(index);
-		return move(index, c.getDir());
-	}
-	
-	private boolean moveBackward(int index){
-		Creature c = this.creatureList.get(index);
-		return move(index, Direction.getNextDirection(MovementAction.REVERSE, c.getDir()));
 	}
 	
 	private boolean move(int index, Direction dir){
@@ -147,10 +124,10 @@ public class Sandbox {
 		}
 		if (oldX < 0 || oldY < 0){
 			return true;
-		}else if(oldX >= world.length || oldY >= world[0].length){
+		}else if(oldX >= this.world.length || oldY >= this.world[0].length){
 			return true;
 		}
-		Obstacle o = Obstacle.idToEnum(world[oldX][oldY]);
+		Obstacle o = Obstacle.idToEnum(this.world[oldX][oldY]);
 		if(o.isClippable()){
 			return true;
 		}

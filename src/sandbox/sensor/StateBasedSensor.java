@@ -79,11 +79,11 @@ public class StateBasedSensor extends Sensor {
 	}
 	
 	private void updateTouch(Sense touch, Sandbox box){
-		ActionHistory history = box.getLastActionHistory(this.c);
+		ActionHistory history = c.getLastActionHistory();
 		if (history == null){
 			return;
 		}
-		if (history.getLastAction().equals(MovementAction.FORWARD) || history.getLastAction().equals(MovementAction.BACKWARD)){
+		if (history.getLastAction().equals(MovementAction.MOVE_UP) || history.getLastAction().equals(MovementAction.MOVE_DOWN)){
 			touch.setValue(!history.isAbleToTake());
 		}
 	}

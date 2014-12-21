@@ -47,9 +47,9 @@ public abstract class DirtBasedAgent extends AbstractSandboxAgent {
 	protected MovementAction calculateMovement(Direction c, Direction dirt){
 		
 		if (dirt.equals(c)){
-			return MovementAction.FORWARD;
+			return MovementAction.MOVE_UP;
 		}else if (Math.abs(dirt.ordinal() - c.ordinal()) == 2){
-			return MovementAction.BACKWARD;
+			return MovementAction.MOVE_DOWN;
 		}else if (Direction.getNextDirection(MovementAction.MOVE_RIGHT, c).equals(dirt)){
 			return MovementAction.MOVE_RIGHT;
 		}else if (Direction.getNextDirection(MovementAction.MOVE_LEFT, c).equals(dirt)){

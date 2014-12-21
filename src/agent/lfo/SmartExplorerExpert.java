@@ -11,6 +11,7 @@ import sandbox.Direction;
 import sandbox.MovementAction;
 import sandbox.Obstacle;
 
+@Deprecated
 public class SmartExplorerExpert extends SmartExpert {
 
 	private int initX;
@@ -54,9 +55,9 @@ public class SmartExplorerExpert extends SmartExpert {
 		if (newDir.getY() < oldDir.getY()){
 			switch (d){
 			case NORTH:
-				return MovementAction.FORWARD;
+				return MovementAction.MOVE_UP;
 			case SOUTH:
-				return MovementAction.BACKWARD;
+				return MovementAction.MOVE_DOWN;
 			case EAST:
 				return MovementAction.TURN_LEFT;
 			case WEST:
@@ -65,9 +66,9 @@ public class SmartExplorerExpert extends SmartExpert {
 		}else if (newDir.getY() > oldDir.getY()){
 			switch (d){
 			case NORTH:
-				return MovementAction.BACKWARD;
+				return MovementAction.MOVE_DOWN;
 			case SOUTH:
-				return MovementAction.FORWARD;
+				return MovementAction.MOVE_UP;
 			case EAST:
 				return MovementAction.TURN_RIGHT;
 			case WEST:
@@ -80,9 +81,9 @@ public class SmartExplorerExpert extends SmartExpert {
 			case SOUTH:
 				return MovementAction.TURN_LEFT;
 			case EAST:
-				return MovementAction.FORWARD;
+				return MovementAction.MOVE_UP;
 			case WEST:
-				return MovementAction.BACKWARD;
+				return MovementAction.MOVE_DOWN;
 			}
 		}else if (newDir.getX() < oldDir.getX()){
 			switch (d){
@@ -91,9 +92,9 @@ public class SmartExplorerExpert extends SmartExpert {
 			case SOUTH:
 				return MovementAction.TURN_RIGHT;
 			case EAST:
-				return MovementAction.BACKWARD;
+				return MovementAction.MOVE_DOWN;
 			case WEST:
-				return MovementAction.FORWARD;
+				return MovementAction.MOVE_UP;
 			}
 		}
 		

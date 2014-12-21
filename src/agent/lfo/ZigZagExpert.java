@@ -5,6 +5,7 @@ import sandbox.Creature;
 import sandbox.MovementAction;
 import sandbox.sensor.Sensor;
 
+@Deprecated
 public class ZigZagExpert extends DirtBasedAgent{
     
     private Boolean Right;
@@ -42,7 +43,7 @@ public class ZigZagExpert extends DirtBasedAgent{
                         End = true;
                         return MovementAction.MOVE_RIGHT;
                     }
-                    return MovementAction.FORWARD;
+                    return MovementAction.MOVE_UP;
                 }
             }
             else if(!Down) {
@@ -59,7 +60,7 @@ public class ZigZagExpert extends DirtBasedAgent{
                         End = true;
                         return MovementAction.MOVE_LEFT;
                     }
-                    return MovementAction.FORWARD;
+                    return MovementAction.MOVE_UP;
                 }
             }
         }
@@ -78,7 +79,7 @@ public class ZigZagExpert extends DirtBasedAgent{
                         End = true;
                         return MovementAction.MOVE_RIGHT;
                     }
-                    return MovementAction.FORWARD;
+                    return MovementAction.MOVE_UP;
                 }
             }
             else if(Down) {
@@ -95,7 +96,7 @@ public class ZigZagExpert extends DirtBasedAgent{
                         End = true;
                         return MovementAction.MOVE_LEFT;
                     }
-                    return MovementAction.FORWARD;
+                    return MovementAction.MOVE_UP;
                 }
             }
         }

@@ -8,10 +8,10 @@ public enum Direction {
 	;
 	public static Direction getPreviousDirection(MovementAction action, Direction currentDirection){
 		switch(action){
-		case BACKWARD:
+		case MOVE_DOWN:
 		case REMOVE_OBSTACLE:
 		case STAND:
-		case FORWARD:
+		case MOVE_UP:
 			return currentDirection;
 		case MOVE_LEFT:
 		case TURN_LEFT:
@@ -21,17 +21,17 @@ public enum Direction {
 			int i = ((currentDirection.ordinal() - 1) < 0)? (currentDirection.ordinal() - 1) + Direction.values().length :(currentDirection.ordinal() - 1);
 			return Direction.values()[i];
 		case REVERSE:
-			return Direction.values()[(currentDirection.ordinal() + 2) % Direction.values().length];
+			throw new UnsupportedOperationException();
 		}
 		return null;
 	}
 	
 	public static Direction getNextDirection(MovementAction action, Direction currentDirection){
 		switch(action){
-		case BACKWARD:
+		case MOVE_DOWN:
 		case REMOVE_OBSTACLE:
 		case STAND:
-		case FORWARD:
+		case MOVE_UP:
 		case REVERSE:
 			return getPreviousDirection(action, currentDirection);
 		case MOVE_LEFT:

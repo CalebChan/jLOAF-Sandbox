@@ -6,6 +6,7 @@ import sandbox.Creature;
 import sandbox.Direction;
 import sandbox.MovementAction;
 
+@Deprecated
 public class SmartStraightLineExpert extends SmartExpert{
 	
 	private Random r;
@@ -31,7 +32,7 @@ public class SmartStraightLineExpert extends SmartExpert{
 			int value = r.nextInt(Direction.values().length);
 			return calculateMovement(c.getDir(), Direction.values()[value]);
 		}
-		return MovementAction.FORWARD;
+		return MovementAction.MOVE_UP;
 	}
 
 }
