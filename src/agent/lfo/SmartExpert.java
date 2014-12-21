@@ -6,7 +6,6 @@ import sandbox.MovementAction;
 import sandbox.Obstacle;
 import sandbox.sensor.Sensor;
 
-@Deprecated
 public abstract class SmartExpert extends DirtBasedAgent{
 
 	private boolean dirtFound;

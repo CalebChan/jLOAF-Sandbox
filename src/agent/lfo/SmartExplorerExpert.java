@@ -11,7 +11,6 @@ import sandbox.Direction;
 import sandbox.MovementAction;
 import sandbox.Obstacle;
 
-@Deprecated
 public class SmartExplorerExpert extends SmartExpert {
 
 	private int initX;

@@ -5,7 +5,6 @@ import sandbox.Creature;
 import sandbox.MovementAction;
 import sandbox.sensor.Sensor;
 
-@Deprecated
 public class ZigZagExpert extends DirtBasedAgent{
     
     private Boolean Right;

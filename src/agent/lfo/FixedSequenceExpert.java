@@ -3,7 +3,6 @@ package agent.lfo;
 import sandbox.Creature;
 import sandbox.MovementAction;
 
-@Deprecated
 public class FixedSequenceExpert extends DirtBasedAgent{
     
     private int num;

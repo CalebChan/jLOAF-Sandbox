@@ -6,7 +6,6 @@ import sandbox.Creature;
 import sandbox.Direction;
 import sandbox.MovementAction;
 
-@Deprecated
 public class SmartStraightLineExpert extends SmartExpert{
 	
 	private Random r;
