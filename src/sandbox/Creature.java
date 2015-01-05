@@ -38,6 +38,9 @@ public abstract class Creature implements Serializable{
 	}
 	
 	public ActionHistory getLastActionHistory(){
+		if (this.actionHistory.isEmpty()){
+			return null;
+		}
 		return this.actionHistory.get(this.actionHistory.size() - 1);
 	}
 
