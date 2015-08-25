@@ -44,17 +44,17 @@ public abstract class Creature implements Serializable{
 		return this.actionHistory.get(this.actionHistory.size() - 1);
 	}
 
+	public void updateCreature(int x, int y, ActionHistory action){
+		this.x = x;
+		this.y = y;
+		addAction(action);
+	}
+	
 	public int getX() {
 		return x;
 	}
-	public void setX(int x) {
-		this.x = x;
-	}
 	public int getY() {
 		return y;
-	}
-	public void setY(int y) {
-		this.y = y;
 	}
 	public Direction getDir() {
 		return dir;

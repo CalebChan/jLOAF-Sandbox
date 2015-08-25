@@ -7,8 +7,8 @@ import java.util.Random;
 
 import sandbox.Creature;
 import sandbox.Direction;
+import sandbox.Environment;
 import sandbox.MovementAction;
-import sandbox.Obstacle;
 import sandbox.creature.DirtBasedCreature;
 import agent.AbstractSandboxAgent;
 import agent.AgentState;
@@ -21,12 +21,9 @@ public abstract class DirtBasedAgent extends AbstractSandboxAgent {
 		super(size, c);
 		Random r = new Random(DEFAULT_RANDOM_SEED);
 		
-		int world[][] = box.getWorld();
-		world[r.nextInt(size - 2) + 1][r.nextInt(size - 2) + 1] = Obstacle.DIRT.ordinal();
-		world[r.nextInt(size - 2) + 1][r.nextInt(size - 2) + 1] = Obstacle.DIRT.ordinal();
-		
-		box.setWorld(world);
-		box.init();
+		int world[][] = box.getEnvironment();
+		world[r.nextInt(size - 2) + 1][r.nextInt(size - 2) + 1] = Environment.DIRT;
+		world[r.nextInt(size - 2) + 1][r.nextInt(size - 2) + 1] = Environment.DIRT;
 	}
 
 	@Override
@@ -37,10 +34,9 @@ public abstract class DirtBasedAgent extends AbstractSandboxAgent {
 	@Override
 	public void runAgent(int iterations) {
 		for (int i = 0; i < iterations; i++){
-			Creature c = box.getCreature().get(id);
-			MovementAction action = testAction(c);
-			state.add(new DirtBasedAgentState(action, c.getSensor()));
-			box.takeAction(id, action);
+			MovementAction action = testAction(creature);
+			state.add(new DirtBasedAgentState(action, creature.getSensor()));
+			box.makeMove(action, creature);
 		}
 	}
 	

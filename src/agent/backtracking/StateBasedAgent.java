@@ -20,13 +20,13 @@ public abstract class StateBasedAgent extends AbstractSandboxAgent {
 	
 	public void runAgent(int iterations){
 		for (int i = 0; i < iterations; i++){
-			Creature c = box.getCreature().get(id);
+			Creature c = this.creature;
 			MovementAction action = testAction(c);
 			boolean hasTouched = (boolean)c.getSensor().getSense(StateBasedAgentSenseConfig.TOUCH).getValue();
 			double sonar = (double)c.getSensor().getSense(StateBasedAgentSenseConfig.SONAR).getValue();
 			int sound = (int)c.getSensor().getSense(StateBasedAgentSenseConfig.SOUND).getValue();
 			state.add(new BacktrackingAgentState(hasTouched, sonar, sound, action));
-			box.takeAction(id, action);
+			box.makeMove(action, c);
 		}
 	}
 	

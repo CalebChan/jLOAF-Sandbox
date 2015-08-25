@@ -2,8 +2,8 @@ package agent.lfo;
 
 import sandbox.Creature;
 import sandbox.Direction;
+import sandbox.Environment;
 import sandbox.MovementAction;
-import sandbox.Obstacle;
 import sandbox.sensor.Sensor;
 
 public abstract class SmartExpert extends DirtBasedAgent{
@@ -24,7 +24,7 @@ public abstract class SmartExpert extends DirtBasedAgent{
 		Sensor s = c.getSensor();
 		for (Direction d : Direction.values()){
 			int value = (int) s.getSense(d.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).getValue();
-			if (Obstacle.DIRT.getId() == value){
+			if (Environment.WALL == value){
 				if (dirtFound && dirtDirection != null && !dirtDirection.equals(d)){
 					continue;
 				}else if (!dirtFound){

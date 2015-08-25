@@ -4,24 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sandbox.Creature;
+import sandbox.Environment;
 import sandbox.MovementAction;
-import sandbox.Sandbox;
 
 public abstract class AbstractSandboxAgent {
 
 	protected List<AgentState> state;
-	protected Sandbox box;
+	protected Environment box;
 	protected int id;
+	protected Creature creature;
 
 	public AbstractSandboxAgent(int size, Creature c) {
 		state = new ArrayList<AgentState>();
-		box = new Sandbox(size);
+		box = new Environment(size, size);
 		if (c == null){
-			id = box.addCreature(createCreature());
+			creature = createCreature();
 		}else{
-			id = box.addCreature(c);
+			creature = c;
 		}
-		box.init();
+		box.addCreature(creature);
 	}
 
 	public abstract MovementAction testAction(Creature c);

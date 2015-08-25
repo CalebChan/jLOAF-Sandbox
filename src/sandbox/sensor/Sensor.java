@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import sandbox.Creature;
-import sandbox.Sandbox;
+import sandbox.Environment;
 
 public abstract class Sensor {
 	
@@ -30,6 +30,6 @@ public abstract class Sensor {
 		return senses.keySet();
 	}
 	
-	public abstract void updateSenses(Sandbox sandbox);
+	public abstract void updateSenses(Environment environment);
 
 }

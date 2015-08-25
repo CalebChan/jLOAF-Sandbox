@@ -8,8 +8,8 @@ import java.util.Random;
 
 import sandbox.Creature;
 import sandbox.Direction;
+import sandbox.Environment;
 import sandbox.MovementAction;
-import sandbox.Obstacle;
 
 public class SmartExplorerExpert extends SmartExpert {
 
@@ -31,16 +31,16 @@ public class SmartExplorerExpert extends SmartExpert {
 		initY = c.getY();
 		
 		world = new int[size][size];
-		int w[][] = box.getWorld();
+		int w[][] = box.getEnvironment();
 		for (int i = 0; i < w.length; i++){
 			for (int j = 0; j < w[0].length; j++){
-				if (w[i][j] == Obstacle.DIRT.ordinal()){
+				if (w[i][j] == Environment.DIRT){
 					world[i][j] = 1;
 				}else{
 					world[i][j] = 0;
 				}
 				
-				if (w[i][j] != Obstacle.WALL.ordinal()){
+				if (w[i][j] != Environment.WALL){
 					this.openSpaces.add(new Point(i, j));
 				}
 			}
@@ -50,53 +50,53 @@ public class SmartExplorerExpert extends SmartExpert {
 	}
 	
 	private MovementAction selectDirection(Point newDir, Point oldDir, Direction d){
-		
-		if (newDir.getY() < oldDir.getY()){
-			switch (d){
-			case NORTH:
-				return MovementAction.MOVE_UP;
-			case SOUTH:
-				return MovementAction.MOVE_DOWN;
-			case EAST:
-				return MovementAction.TURN_LEFT;
-			case WEST:
-				return MovementAction.TURN_RIGHT;
-			}
-		}else if (newDir.getY() > oldDir.getY()){
-			switch (d){
-			case NORTH:
-				return MovementAction.MOVE_DOWN;
-			case SOUTH:
-				return MovementAction.MOVE_UP;
-			case EAST:
-				return MovementAction.TURN_RIGHT;
-			case WEST:
-				return MovementAction.TURN_LEFT;
-			}
-		}else if (newDir.getX() > oldDir.getX()){
-			switch (d){
-			case NORTH:
-				return MovementAction.TURN_RIGHT;
-			case SOUTH:
-				return MovementAction.TURN_LEFT;
-			case EAST:
-				return MovementAction.MOVE_UP;
-			case WEST:
-				return MovementAction.MOVE_DOWN;
-			}
-		}else if (newDir.getX() < oldDir.getX()){
-			switch (d){
-			case NORTH:
-				return MovementAction.TURN_LEFT;
-			case SOUTH:
-				return MovementAction.TURN_RIGHT;
-			case EAST:
-				return MovementAction.MOVE_DOWN;
-			case WEST:
-				return MovementAction.MOVE_UP;
-			}
-		}
-		
+//		
+//		if (newDir.getY() < oldDir.getY()){
+//			switch (d){
+//			case NORTH:
+//				return MovementAction.MOVE_UP;
+//			case SOUTH:
+//				return MovementAction.MOVE_DOWN;
+//			case EAST:
+//				return MovementAction.MOVE_RIGHT;
+//			case WEST:
+//				return MovementAction.;
+//			}
+//		}else if (newDir.getY() > oldDir.getY()){
+//			switch (d){
+//			case NORTH:
+//				return MovementAction.MOVE_DOWN;
+//			case SOUTH:
+//				return MovementAction.MOVE_UP;
+//			case EAST:
+//				return MovementAction.TURN_RIGHT;
+//			case WEST:
+//				return MovementAction.TURN_LEFT;
+//			}
+//		}else if (newDir.getX() > oldDir.getX()){
+//			switch (d){
+//			case NORTH:
+//				return MovementAction.TURN_RIGHT;
+//			case SOUTH:
+//				return MovementAction.TURN_LEFT;
+//			case EAST:
+//				return MovementAction.MOVE_UP;
+//			case WEST:
+//				return MovementAction.MOVE_DOWN;
+//			}
+//		}else if (newDir.getX() < oldDir.getX()){
+//			switch (d){
+//			case NORTH:
+//				return MovementAction.TURN_LEFT;
+//			case SOUTH:
+//				return MovementAction.TURN_RIGHT;
+//			case EAST:
+//				return MovementAction.MOVE_DOWN;
+//			case WEST:
+//				return MovementAction.MOVE_UP;
+//			}
+//		}
+//		
 		return MovementAction.STAND;
 	}
 

@@ -3,11 +3,10 @@ package sandbox.sensor;
 import java.util.List;
 
 import agent.backtracking.StateBasedAgentSenseConfig;
-
 import sandbox.ActionHistory;
 import sandbox.Creature;
+import sandbox.Environment;
 import sandbox.MovementAction;
-import sandbox.Sandbox;
 
 public class StateBasedSensor extends Sensor {
 
@@ -16,18 +15,18 @@ public class StateBasedSensor extends Sensor {
 	}
 
 	@Override
-	public void updateSenses(Sandbox sandbox) {
+	public void updateSenses(Environment env) {
 		if (senses.size() != StateBasedAgentSenseConfig.SENSOR_COUNT){
 			return;
 		}
-		updateSound(this.senses.get(StateBasedAgentSenseConfig.SOUND), sandbox);
-		updateSonar(this.senses.get(StateBasedAgentSenseConfig.SONAR), sandbox);
-		updateTouch(this.senses.get(StateBasedAgentSenseConfig.TOUCH), sandbox);
+		updateSound(this.senses.get(StateBasedAgentSenseConfig.SOUND), env);
+		updateSonar(this.senses.get(StateBasedAgentSenseConfig.SONAR), env);
+		updateTouch(this.senses.get(StateBasedAgentSenseConfig.TOUCH), env);
 	}
 	
 //	private Random r = new Random(0);	
 
-	private void updateSound(Sense sound, Sandbox box){
+	private void updateSound(Sense sound, Environment env){
 //		if (c.getSound() < 1 || c.getSound() > 2){
 //		c.setSound(1);
 //		}
@@ -36,9 +35,9 @@ public class StateBasedSensor extends Sensor {
 //		}
 	}
 	
-	private void updateSonar(Sense sonar, Sandbox box){
+	private void updateSonar(Sense sonar, Environment env){
 		int sonarCount = 0;
-		int world[][] = box.getWorld();
+		int world[][] = env.getEnvironment();
 		int oldX = c.getX();
 		int oldY = c.getY();
 		switch(c.getDir()){
@@ -78,7 +77,7 @@ public class StateBasedSensor extends Sensor {
 		sonar.setValue(sonarCount / 2.0);
 	}
 	
-	private void updateTouch(Sense touch, Sandbox box){
+	private void updateTouch(Sense touch, Environment env){
 		ActionHistory history = c.getLastActionHistory();
 		if (history == null){
 			return;

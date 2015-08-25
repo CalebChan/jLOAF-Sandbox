@@ -3,10 +3,9 @@ package sandbox.sensor;
 import java.util.List;
 
 import agent.lfo.DirtBasedAgentSenseConfig;
-import sandbox.ActionHistory;
 import sandbox.Creature;
 import sandbox.Direction;
-import sandbox.Sandbox;
+import sandbox.Environment;
 
 public class DirtBasedSensor extends Sensor{
 
@@ -15,61 +14,69 @@ public class DirtBasedSensor extends Sensor{
 	}
 
 	@Override
-	public void updateSenses(Sandbox sandbox) {
+	public void updateSenses(Environment environment) {
 		if (this.senses.size() != DirtBasedAgentSenseConfig.SENSOR_COUNT){
 			return;
 		}
-		int[][] world = sandbox.getWorld();
+		int[][] world = environment.getEnvironment();
 		int oldX = c.getX();
 		int oldY = c.getY();
 		for (Direction d : Direction.values()){
-			int count = 0;
+			int count = 1;
 			int obstacle = 0;
 			switch(d){
 			case NORTH:
-				for (int i = oldX - 1; i >= 0; i--){
-					if (world[i][oldY] != 0){
-						obstacle = world[i][oldY];
+				
+				for (int i = 1; oldY - i >= 0; i++){
+					if (world[oldX][oldY - i] != 0){
+						obstacle = world[oldX][oldY - i];
 						break;
 					}
 					count++;
+				}
+				if (oldY - count < 0){
+					obstacle = Environment.WALL;
 				}
 				break;
 			case SOUTH:
-				for (int i = oldX + 1; i < world.length; i++){
-					if (world[i][oldY] != 0){
-						obstacle = world[i][oldY];
+				for (int i = 1; oldY + i < world.length; i++){
+					if (world[oldX][oldY + i] != 0){
+						obstacle = world[oldX][oldY + i];
 						break;
 					}
 					count++;
+				}
+				if (oldY + count >= world.length){
+					obstacle = Environment.WALL;
 				}
 				break;
 			case EAST:
-				for (int i = oldY + 1; i < world[0].length; i++){
-					if (world[oldX][i] != 0){
-						obstacle = world[oldX][i];
+				for (int i = 1; oldX + i < world[0].length; i++){
+					if (world[oldX + i][oldY] != 0){
+						obstacle = world[oldX][oldY];
 						break;
 					}
 					count++;
+				}
+				if (oldX + count >= world[0].length){
+					obstacle = Environment.WALL;
 				}
 				break;
 			case WEST:
-				for (int i = oldY - 1; i >= 0; i--){
-					if (world[oldX][i] != 0){
-						obstacle = world[oldX][i];
+				for (int i = 1; oldX - i >= 0; i++){
+					if (world[oldX - i][oldY] != 0){
+						obstacle = world[oldX - i][oldY];
 						break;
 					}
 					count++;
 				}
+				if (oldX - count < 0){
+					obstacle = Environment.WALL;
+				}
 				break;
 			}
-			ActionHistory h = c.getLastActionHistory();
 			this.senses.get(d.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).setValue(obstacle); 
-			if (h != null && !h.isAbleToTake() && c.getDir().equals(d)){
-				this.senses.get(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).setValue(-1);
-			}else{
-				this.senses.get(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).setValue(count);
-			}
+			this.senses.get(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).setValue((count == 1) ? 1 : 2);
 		}
 	}
 
