@@ -1,37 +1,55 @@
 package agent.lfo;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 import sandbox.Creature;
 import sandbox.Direction;
+import sandbox.Environment;
 import sandbox.MovementAction;
+import sandbox.sensor.Sensor;
 
 public class SmartStraightLineExpert extends SmartExpert{
 	
-	private Random r;
-	private boolean hitWall;
+	private Direction currentDirection;
 	
-	public SmartStraightLineExpert(int size, Creature c) {
-		super(size, c);
-		r = new Random(0);
-		hitWall = false;
+	public SmartStraightLineExpert(Creature c, Environment environment) {
+		super(c, environment);
+		
+		currentDirection = null;
 	}
 
 	@Override
 	public MovementAction testAction(Creature c) {
-		MovementAction action = this.nextSmartDirection(c);
+		Direction action = this.checkForDirt(c);
 		if (action != null){
-			return action;
+			currentDirection = action;
+			return Direction.convertDirToAct(action);
 		}
-		if (hitSomething){
-			hitWall = true;
-			return MovementAction.STAND;
-		}else if (hitWall){
-			hitWall = false;
-			int value = r.nextInt(Direction.values().length);
-			return calculateMovement(c.getDir(), Direction.values()[value]);
+		Sensor s = c.getSensor();
+		int value = (int) s.getSense(currentDirection.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).getValue();
+		int dist = (int) s.getSense(currentDirection.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue();
+		
+		if (value == Environment.WALL && dist == Environment.CLOSE){
+			currentDirection = null;
 		}
-		return MovementAction.MOVE_UP;
+		
+		if (currentDirection != null){
+			return Direction.convertDirToAct(currentDirection);
+		}
+		
+		ArrayList<Direction> possibleDir = new ArrayList<Direction>();
+		for (Direction d : Direction.values()){
+			value = (int) s.getSense(d.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).getValue();
+			dist = (int) s.getSense(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue();
+			
+			if (value == Environment.WALL && dist == Environment.FAR){
+				possibleDir.add(d);
+			}
+		}
+		value = r.nextInt(possibleDir.size());
+		currentDirection = possibleDir.get(value);
+		return Direction.convertDirToAct(possibleDir.get(value));
+		
 	}
 
 }

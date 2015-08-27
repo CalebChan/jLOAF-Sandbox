@@ -3,7 +3,6 @@ package agent.lfo;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Random;
 
 import sandbox.Creature;
 import sandbox.Direction;
@@ -14,16 +13,9 @@ import agent.AbstractSandboxAgent;
 import agent.AgentState;
 
 public abstract class DirtBasedAgent extends AbstractSandboxAgent {
-
-	private static final int DEFAULT_RANDOM_SEED = 0;
 	
-	public DirtBasedAgent(int size, Creature c) {
-		super(size, c);
-		Random r = new Random(DEFAULT_RANDOM_SEED);
-		
-		int world[][] = box.getEnvironment();
-		world[r.nextInt(size - 2) + 1][r.nextInt(size - 2) + 1] = Environment.DIRT;
-		world[r.nextInt(size - 2) + 1][r.nextInt(size - 2) + 1] = Environment.DIRT;
+	public DirtBasedAgent(Creature c, Environment environment) {
+		super(c, environment);
 	}
 
 	@Override
@@ -38,20 +30,6 @@ public abstract class DirtBasedAgent extends AbstractSandboxAgent {
 			state.add(new DirtBasedAgentState(action, creature.getSensor()));
 			box.makeMove(action, creature);
 		}
-	}
-	
-	protected MovementAction calculateMovement(Direction c, Direction dirt){
-		
-		if (dirt.equals(c)){
-			return MovementAction.MOVE_UP;
-		}else if (Math.abs(dirt.ordinal() - c.ordinal()) == 2){
-			return MovementAction.MOVE_DOWN;
-		}else if (Direction.getNextDirection(MovementAction.MOVE_RIGHT, c).equals(dirt)){
-			return MovementAction.MOVE_RIGHT;
-		}else if (Direction.getNextDirection(MovementAction.MOVE_LEFT, c).equals(dirt)){
-			return MovementAction.MOVE_LEFT;
-		}
-		return null;
 	}
 
 	@Override

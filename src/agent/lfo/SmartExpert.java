@@ -1,48 +1,34 @@
 package agent.lfo;
 
+import java.util.Random;
+
 import sandbox.Creature;
 import sandbox.Direction;
 import sandbox.Environment;
-import sandbox.MovementAction;
 import sandbox.sensor.Sensor;
 
 public abstract class SmartExpert extends DirtBasedAgent{
-
-	private boolean dirtFound;
-	private Direction dirtDirection;
 	
-	protected boolean hitSomething;
+	protected Random r;
+	protected static final int DEFAULT_RANDOM_SEED = 0;
 	
-	public SmartExpert(int size, Creature c) {
-		super(size, c);
-		this.dirtFound = false;
-		this.hitSomething = false;
+	public SmartExpert(Creature c, Environment environment) {
+		super(c, environment);
+		
+		r = new Random(DEFAULT_RANDOM_SEED);
 	}
 	
-	protected MovementAction nextSmartDirection(Creature c){
-		hitSomething = false;
+	/**
+	 * This method will check for dirt. If dirt is found it will return an action. If no dirt found it will return null.
+	 * @param c
+	 * @return
+	 */
+	protected Direction checkForDirt(Creature c){
 		Sensor s = c.getSensor();
 		for (Direction d : Direction.values()){
 			int value = (int) s.getSense(d.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).getValue();
-			if (Environment.WALL == value){
-				if (dirtFound && dirtDirection != null && !dirtDirection.equals(d)){
-					continue;
-				}else if (!dirtFound){
-					dirtFound = true;
-					dirtDirection = d;
-				}
-				int dist = (int) s.getSense(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue();
-				if (dist <= 1){
-					dirtFound = false;
-					dirtDirection = null;
-				}
-				MovementAction a = calculateMovement(c.getDir(), d);
-				if (a != null){
-					return a;
-				}
-			}
-			if ((int)s.getSense(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue() == -1){
-				hitSomething = true;
+			if (value == Environment.DIRT){
+				return d;
 			}
 		}
 		return null;

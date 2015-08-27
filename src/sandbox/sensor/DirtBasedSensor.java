@@ -76,7 +76,7 @@ public class DirtBasedSensor extends Sensor{
 				break;
 			}
 			this.senses.get(d.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).setValue(obstacle); 
-			this.senses.get(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).setValue((count == 1) ? 1 : 2);
+			this.senses.get(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).setValue((count == 1) ? Environment.CLOSE : Environment.FAR);
 		}
 	}
 

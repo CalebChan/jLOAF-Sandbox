@@ -14,15 +14,25 @@ public abstract class AbstractSandboxAgent {
 	protected int id;
 	protected Creature creature;
 
-	public AbstractSandboxAgent(int size, Creature c) {
+	public AbstractSandboxAgent(Creature c, Environment environment) {
 		state = new ArrayList<AgentState>();
-		box = new Environment(size, size);
 		if (c == null){
 			creature = createCreature();
 		}else{
 			creature = c;
 		}
+		if (environment != null){
+			this.setEnvironment(environment);
+		}
+	}
+	
+	public void setEnvironment(Environment environment){
+		box = environment;
 		box.addCreature(creature);
+	}
+	
+	public Creature getCreature(){
+		return creature;
 	}
 
 	public abstract MovementAction testAction(Creature c);

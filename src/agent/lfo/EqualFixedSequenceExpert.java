@@ -1,14 +1,15 @@
 package agent.lfo;
 
 import sandbox.Creature;
+import sandbox.Environment;
 import sandbox.MovementAction;
 
 public class EqualFixedSequenceExpert extends DirtBasedAgent{
     
     private int num;
     
-    public EqualFixedSequenceExpert (int size, Creature c) {
-        super(size, c);
+    public EqualFixedSequenceExpert (Creature c, Environment environment) {
+        super(c, environment);
         num = 0;
     }
 

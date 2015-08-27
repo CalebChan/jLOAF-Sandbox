@@ -12,7 +12,7 @@ import sandbox.MovementAction;
 public abstract class StateBasedAgent extends AbstractSandboxAgent {
 
 	public StateBasedAgent(int size, Creature c){
-		super(size, c);
+		super(c, null);
 		resetInternalState();
 	}
 	

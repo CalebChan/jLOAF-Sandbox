@@ -1,104 +1,110 @@
 
 package agent.lfo;
 
+import java.util.ArrayList;
+
 import sandbox.Creature;
+import sandbox.Direction;
+import sandbox.Environment;
 import sandbox.MovementAction;
 import sandbox.sensor.Sensor;
 
 public class ZigZagExpert extends DirtBasedAgent{
-    
-    private Boolean Right;
-    private Boolean Down;
-    private Boolean End;
-    private Boolean First;
-    
-    public ZigZagExpert (int size, Creature c){
-        super(size, c);
-        Right = true;
-        Down = true;
-        End = false;
-        First = true;
+
+	private boolean moveUp;
+	private boolean moveRight;
+	
+    public ZigZagExpert (Creature c, Environment environment){
+        super(c, environment);
+        
+        moveUp = false;
+        moveRight = false;
     }
     
     @Override
     public MovementAction testAction(Creature c) {
         Sensor s = c.getSensor();
-        if (First) {
-            First = false;
-            return MovementAction.MOVE_RIGHT;
+        ArrayList<Direction> wallDir = new ArrayList<Direction>();
+        for (Direction d : Direction.values()){
+			int value = (int) s.getSense(d.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).getValue();
+			int dist = (int) s.getSense(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue();
+			if (value == Environment.WALL && dist == Environment.CLOSE){
+				wallDir.add(d);
+			}
+		}
+        
+        if (!moveUp && !moveRight){
+        	if (wallDir.contains(Direction.WEST)){
+        		if (wallDir.contains(Direction.SOUTH)){
+        			if (wallDir.contains(Direction.EAST)){
+        				moveUp = true;
+        				return MovementAction.MOVE_UP;
+        			}else{
+        				moveUp = true;
+        				moveRight = true;
+        				return MovementAction.MOVE_RIGHT;
+        			}
+        		}else{
+        			moveRight = true;
+        			return MovementAction.MOVE_DOWN;
+        		}
+        	}else{
+        		return MovementAction.MOVE_LEFT;
+        	}
+        }else if (moveUp && !moveRight){
+        	if (wallDir.contains(Direction.EAST)){
+        		if (wallDir.contains(Direction.SOUTH)){
+        			if (wallDir.contains(Direction.WEST)){
+        				moveUp = false;
+        				return MovementAction.MOVE_UP;
+        			}else{
+        				moveUp = true;
+        				moveRight = false;
+        				return MovementAction.MOVE_LEFT;
+        			}
+        		}else{
+        			moveRight = false;
+        			return MovementAction.MOVE_DOWN;
+        		}
+        	}else{
+        		return MovementAction.MOVE_RIGHT;
+        	}
+        }else if (!moveUp && moveRight){
+        	if (wallDir.contains(Direction.WEST)){
+        		if (wallDir.contains(Direction.NORTH)){
+        			if (wallDir.contains(Direction.EAST)){
+        				moveUp = false;
+        				return MovementAction.MOVE_DOWN;
+        			}else{
+        				moveUp = false;
+        				moveRight = true;
+        				return MovementAction.MOVE_RIGHT;
+        			}
+        		}else{
+        			moveRight = true;
+        			return MovementAction.MOVE_UP;
+        		}
+        	}else{
+        		return MovementAction.MOVE_LEFT;
+        	}
+        }else{
+        	if (wallDir.contains(Direction.EAST)){
+        		if (wallDir.contains(Direction.NORTH)){
+        			if (wallDir.contains(Direction.WEST)){
+        				moveUp = true;
+        				return MovementAction.MOVE_DOWN;
+        			}else{
+        				moveUp = false;
+        				moveRight = false;
+        				return MovementAction.MOVE_LEFT;
+        			}
+        		}else{
+        			moveRight = false;
+        			return MovementAction.MOVE_UP;
+        		}
+        	}else{
+        		return MovementAction.MOVE_RIGHT;
+        	}
         }
-        if (Right){
-            if (Down){
-                if (End) {
-                    if ((int)s.getSense(c.getDir() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue()==-1){
-                        Down = false;
-                    }
-                    End = false;
-                    Right = false;
-                    return MovementAction.MOVE_RIGHT;
-                }
-                else if (!End) {
-                    if ((int)s.getSense(c.getDir() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue()==-1) {
-                        End = true;
-                        return MovementAction.MOVE_RIGHT;
-                    }
-                    return MovementAction.MOVE_UP;
-                }
-            }
-            else if(!Down) {
-                if (End) {
-                    if ((int)s.getSense(c.getDir() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue()==-1){
-                        Down = true;
-                    }
-                    End = false;
-                    Right = false;
-                    return MovementAction.MOVE_LEFT;
-                }
-                else if (!End) {
-                    if ((int)s.getSense(c.getDir() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue()==-1) {
-                        End = true;
-                        return MovementAction.MOVE_LEFT;
-                    }
-                    return MovementAction.MOVE_UP;
-                }
-            }
-        }
-        else if (!Right){
-            if (!Down){
-                if (End) {
-                    if ((int)s.getSense(c.getDir() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue()==-1){
-                        Down = true;
-                    }
-                    End = false;
-                    Right = true;
-                    return MovementAction.MOVE_RIGHT;
-                }
-                else if (!End) {
-                    if ((int)s.getSense(c.getDir() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue()==-1) {
-                        End = true;
-                        return MovementAction.MOVE_RIGHT;
-                    }
-                    return MovementAction.MOVE_UP;
-                }
-            }
-            else if(Down) {
-                if (End) {
-                    if ((int)s.getSense(c.getDir() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue()==-1){
-                        Down = false;
-                    }
-                    End = false;
-                    Right = true;
-                    return MovementAction.MOVE_LEFT;
-                }
-                else if (!End) {
-                    if ((int)s.getSense(c.getDir() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue()==-1) {
-                        End = true;
-                        return MovementAction.MOVE_LEFT;
-                    }
-                    return MovementAction.MOVE_UP;
-                }
-            }
-        }
-    return MovementAction.STAND;
     }
 }

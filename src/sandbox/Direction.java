@@ -13,4 +13,19 @@ public enum Direction {
 	public static Direction getNextDirection(MovementAction action, Direction currentDirection){
 		return null;
 	}
+	
+	public static MovementAction convertDirToAct(Direction currentDirection){
+		switch(currentDirection){
+		case EAST:
+			return MovementAction.MOVE_RIGHT;
+		case NORTH:
+			return MovementAction.MOVE_UP;
+		case SOUTH:
+			return MovementAction.MOVE_DOWN;
+		case WEST:
+			return MovementAction.MOVE_LEFT;
+		default:
+			return null;
+		}
+	}
 }

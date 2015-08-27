@@ -4,10 +4,15 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import sandbox.sensor.Sensor;
+
 public class Environment {
 	
-	public static final int DIRT = 1;
-	public static final int WALL = 2;
+	public static final int DIRT = 2;
+	public static final int WALL = 1;
+	
+	public static final int CLOSE = 1;
+	public static final int FAR = 2;
 	
 	private int sandboxMap[][];
 	
@@ -26,11 +31,12 @@ public class Environment {
 		this.sandboxMap = obstacle.applyObstacle(getEnvironment());
 	}
 	
-	public void getPerception(Creature c){
+	public void updateSensor(Creature c){
 		if (!creatureList.contains(c)){
 			return;
 		}
-		
+		Sensor s = c.getSensor();
+		s.updateSenses(this);
 	}
 	
 	public boolean makeMove(MovementAction action, Creature c){

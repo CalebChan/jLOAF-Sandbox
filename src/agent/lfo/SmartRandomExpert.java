@@ -1,28 +1,37 @@
 package agent.lfo;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 import sandbox.Creature;
 import sandbox.Direction;
+import sandbox.Environment;
 import sandbox.MovementAction;
+import sandbox.sensor.Sensor;
 
 public class SmartRandomExpert extends SmartExpert{
 
-	private Random r;
-	
-	public SmartRandomExpert(int size, Creature c) {
-		super(size, c);
-		r = new Random();		
+	public SmartRandomExpert(Creature c, Environment environment) {
+		super(c, environment);
 	}
 
 	@Override
 	public MovementAction testAction(Creature c) {
-		MovementAction action = this.nextSmartDirection(c);
+		Direction action = this.checkForDirt(c);
 		if (action != null){
-			return action;
+			return Direction.convertDirToAct(action);
 		}
-		int value = r.nextInt(Direction.values().length);
-		return calculateMovement(c.getDir(), Direction.values()[value]);
+		Sensor s = c.getSensor();
+		ArrayList<Direction> possibleDir = new ArrayList<Direction>();
+		for (Direction d : Direction.values()){
+			int value = (int) s.getSense(d.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).getValue();
+			int dist = (int) s.getSense(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue();
+			
+			if (value == Environment.WALL && dist == Environment.FAR){
+				possibleDir.add(d);
+			}
+		}
+		int value = r.nextInt(possibleDir.size());
+		return Direction.convertDirToAct(possibleDir.get(value));
 	}
 
 }
