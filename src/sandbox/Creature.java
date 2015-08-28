@@ -44,9 +44,19 @@ public abstract class Creature implements Serializable{
 		return this.actionHistory.get(this.actionHistory.size() - 1);
 	}
 
-	public void updateCreature(int x, int y, ActionHistory action){
+	/**
+	 * This method will move the creature to that location without updating the action history
+	 * @param x
+	 * @param y
+	 */
+	public void moveCreature(int x, int y, Direction d){
 		this.x = x;
 		this.y = y;
+		this.dir = d;
+	}
+	
+	public void updateCreature(int x, int y, ActionHistory action){
+		moveCreature(x, y, this.dir);
 		addAction(action);
 	}
 	
