@@ -1,7 +1,9 @@
-package agent.lfo;
+package agent.lfo.expert;
 
 import java.util.ArrayList;
 
+import agent.lfo.DirtBasedAgentSenseConfig;
+import agent.lfo.SmartExpert;
 import sandbox.Creature;
 import sandbox.Direction;
 import sandbox.Environment;
@@ -31,6 +33,7 @@ public class SmartRandomExpert extends SmartExpert{
 			}
 		}
 		int value = r.nextInt(possibleDir.size());
+		System.out.println("Possible Directions : " + possibleDir.size());
 		return Direction.convertDirToAct(possibleDir.get(value));
 	}
 

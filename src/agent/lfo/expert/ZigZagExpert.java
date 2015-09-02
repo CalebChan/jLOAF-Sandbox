@@ -1,8 +1,10 @@
 
-package agent.lfo;
+package agent.lfo.expert;
 
 import java.util.ArrayList;
 
+import agent.lfo.DirtBasedAgent;
+import agent.lfo.DirtBasedAgentSenseConfig;
 import sandbox.Creature;
 import sandbox.Direction;
 import sandbox.Environment;

@@ -23,7 +23,7 @@ public class DirtBasedSensor extends Sensor{
 		int oldY = c.getY();
 		for (Direction d : Direction.values()){
 			int count = 1;
-			int obstacle = 0;
+			int obstacle = Environment.WALL;
 			switch(d){
 			case NORTH:
 				
@@ -76,7 +76,8 @@ public class DirtBasedSensor extends Sensor{
 				break;
 			}
 			this.senses.get(d.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).setValue(obstacle); 
-			this.senses.get(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).setValue((count == 1) ? Environment.CLOSE : Environment.FAR);
+			// Convert to double for later casting from object to double
+			this.senses.get(d.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).setValue(((count == 1) ? Environment.CLOSE : Environment.FAR));
 		}
 	}
 

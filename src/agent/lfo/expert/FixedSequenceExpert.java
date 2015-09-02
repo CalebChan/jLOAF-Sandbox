@@ -1,5 +1,6 @@
-package agent.lfo;
+package agent.lfo.expert;
 
+import agent.lfo.DirtBasedAgent;
 import sandbox.Creature;
 import sandbox.Environment;
 import sandbox.MovementAction;
