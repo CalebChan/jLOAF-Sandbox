@@ -139,9 +139,9 @@ public class SmartExplorerExpert extends SmartExpert {
 						distance.set(i, distance.get(i + 1));
 						newPositions.set(i, newPositions.get(i + 1));
 						
-						candidates.set(i, tmpDir);
-						distance.set(i, tmpDist);
-						newPositions.set(i, tmpPos);
+						candidates.set(i + 1, tmpDir);
+						distance.set(i + 1, tmpDist);
+						newPositions.set(i + 1, tmpPos);
 						
 						change = true;
 					}

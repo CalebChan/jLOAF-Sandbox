@@ -33,7 +33,7 @@ public class SmartRandomExpert extends SmartExpert{
 			}
 		}
 		int value = r.nextInt(possibleDir.size());
-		System.out.println("Possible Directions : " + possibleDir.size());
+//		System.out.println("Possible Directions : " + possibleDir.size());
 		return Direction.convertDirToAct(possibleDir.get(value));
 	}
 
