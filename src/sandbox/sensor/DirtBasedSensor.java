@@ -53,7 +53,7 @@ public class DirtBasedSensor extends Sensor{
 			case EAST:
 				for (int i = 1; oldX + i < world[0].length; i++){
 					if (world[oldX + i][oldY] != 0){
-						obstacle = world[oldX][oldY];
+						obstacle = world[oldX + i][oldY];
 						break;
 					}
 					count++;

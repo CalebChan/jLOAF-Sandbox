@@ -42,7 +42,6 @@ public class SmartExplorerExpert extends SmartExpert {
 			}
 		}
 		Point newPoint;
-		ArrayList<Point> possiblePoint = new ArrayList<Point>();
 		for (Direction d : possibleDir){
 			switch(Direction.convertDirToAct(d)){
 			case MOVE_UP:
@@ -65,9 +64,8 @@ public class SmartExplorerExpert extends SmartExpert {
 			if (!openSpaces.contains(newPoint) && !closeSpaces.contains(newPoint)){
 				openSpaces.add(newPoint);
 			}
-			possiblePoint.add(newPoint);
 		}
-		
+		System.out.println("Dirt Found");
 		Direction action = this.checkForDirt(c);
 		if (action != null){
 			switch(Direction.convertDirToAct(action)){
@@ -88,13 +86,14 @@ public class SmartExplorerExpert extends SmartExpert {
 				currentPoint = new Point(c.getX(), c.getY());
 				break;
 			}
+			
 			return Direction.convertDirToAct(action);
 		}
 		
 		// Suppose to select closest but discrete distances used so just pick first point
 		Point closest = null;
-		if (!possiblePoint.isEmpty()){
-			closest = possiblePoint.get(0);
+		if (!openSpaces.isEmpty()){
+			closest = openSpaces.get(0);
 		}
 
 		if (closest != null){

@@ -23,6 +23,20 @@ public class Environment {
 		this.creatureList = new ArrayList<Creature>();
 	}
 	
+	/**
+	 * This method will make a copy of the environment and not a copy of the creatures in the environment
+	 * @param e
+	 */
+	public Environment(Environment e){
+		this.creatureList = new ArrayList<Creature>();
+		sandboxMap = new int[e.sandboxMap.length][e.sandboxMap[0].length];
+		for (int i = 0; i < sandboxMap.length; i++){
+			for (int j = 0; j < sandboxMap[i].length; j++){
+				sandboxMap[i][j] = e.sandboxMap[i][j];
+			}
+		}
+	}
+	
 	public void addCreature(Creature c){
 		this.creatureList.add(c);
 	}
@@ -96,5 +110,9 @@ public class Environment {
 	
 	public int[][] getEnvironment(){
 		return sandboxMap;
+	}
+	
+	public List<Creature> getCreatures(){
+		return this.creatureList;
 	}
 }
