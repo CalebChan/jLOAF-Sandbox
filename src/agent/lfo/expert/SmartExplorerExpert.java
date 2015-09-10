@@ -27,6 +27,7 @@ public class SmartExplorerExpert extends SmartExpert {
 	
 	@Override
 	public MovementAction testAction(Creature c) {
+		currentPoint = new Point(this.creature.getX(), this.creature.getY());
 		
 		openSpaces.remove(currentPoint);
 		closeSpaces.add(currentPoint);
@@ -156,7 +157,7 @@ public class SmartExplorerExpert extends SmartExpert {
 			}
 		}
 		
-		return null;
+		return MovementAction.STAND;
 	}
 
 }
