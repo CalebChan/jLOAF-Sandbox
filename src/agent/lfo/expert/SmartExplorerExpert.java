@@ -65,7 +65,6 @@ public class SmartExplorerExpert extends SmartExpert {
 				openSpaces.add(newPoint);
 			}
 		}
-		System.out.println("Dirt Found");
 		Direction action = this.checkForDirt(c);
 		if (action != null){
 			switch(Direction.convertDirToAct(action)){
