@@ -27,12 +27,16 @@ public class SmartStraightLineExpert extends SmartExpert{
 			currentDirection = action;
 			return Direction.convertDirToAct(action);
 		}
+		int value = -1;
+		int dist = -1;
 		Sensor s = c.getSensor();
-		int value = (int) s.getSense(currentDirection.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).getValue();
-		int dist = (int) s.getSense(currentDirection.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue();
-		
-		if (value == Environment.WALL && dist == Environment.CLOSE){
-			currentDirection = null;
+		if (currentDirection != null){
+			value = (int) s.getSense(currentDirection.name() + DirtBasedAgentSenseConfig.TYPE_SUFFIX).getValue();
+			dist = (int) s.getSense(currentDirection.name() + DirtBasedAgentSenseConfig.DISTANCE_SUFFIX).getValue();
+			
+			if (value == Environment.WALL && dist == Environment.CLOSE){
+				currentDirection = null;
+			}
 		}
 		
 		if (currentDirection != null){
