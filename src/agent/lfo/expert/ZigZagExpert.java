@@ -23,6 +23,26 @@ public class ZigZagExpert extends DirtBasedAgent{
         moveRight = false;
     }
     
+	public void resetDirection(Direction d){
+		if (d == null){
+			return;
+		}
+		switch(d){
+		case EAST:
+			moveRight = true;
+			break;
+		case NORTH:
+			moveUp = true;
+			break;
+		case SOUTH:
+			moveUp = false;
+			break;
+		case WEST:
+			moveRight = false;
+			break;
+		}
+	}
+
     @Override
     public MovementAction testAction(Creature c) {
         Sensor s = c.getSensor();

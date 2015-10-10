@@ -19,6 +19,13 @@ public class SmartStraightLineExpert extends SmartExpert{
 		
 		currentDirection = null;
 	}
+	
+	public void resetDirection(Direction d){
+		if (d == null){
+			return;
+		}
+		this.currentDirection = d;
+	}
 
 	@Override
 	public MovementAction testAction(Creature c) {

@@ -14,6 +14,23 @@ public enum Direction {
 		return null;
 	}
 	
+	public static Direction convertActToDir(MovementAction action){
+		switch(action){
+		case MOVE_DOWN:
+			return SOUTH;
+		case MOVE_LEFT:
+			return WEST;
+		case MOVE_RIGHT:
+			return EAST;
+		case MOVE_UP:
+			return NORTH;
+		case STAND:
+			return null;
+		default:
+			return null;		
+		}
+	}
+	
 	public static MovementAction convertDirToAct(Direction currentDirection){
 		switch(currentDirection){
 		case EAST:
