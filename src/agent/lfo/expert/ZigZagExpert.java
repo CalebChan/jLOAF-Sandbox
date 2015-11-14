@@ -73,7 +73,7 @@ public class ZigZagExpert extends DirtBasedAgent{
         	}else{
         		return MovementAction.MOVE_LEFT;
         	}
-        }else if (moveUp && !moveRight){
+        }else if (!moveUp && moveRight){
         	if (wallDir.contains(Direction.EAST)){
         		if (wallDir.contains(Direction.SOUTH)){
         			if (wallDir.contains(Direction.WEST)){
@@ -91,7 +91,7 @@ public class ZigZagExpert extends DirtBasedAgent{
         	}else{
         		return MovementAction.MOVE_RIGHT;
         	}
-        }else if (!moveUp && moveRight){
+        }else if (moveUp && !moveRight){
         	if (wallDir.contains(Direction.WEST)){
         		if (wallDir.contains(Direction.NORTH)){
         			if (wallDir.contains(Direction.EAST)){
